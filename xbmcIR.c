@@ -52,18 +52,18 @@ For MacOS:
     #define VK_RIGHT XK_Right
     #define VK_RETURN XK_Return
     #define VK_BACK XK_BackSpace
-    #define VK_MEDIA_PLAY_PAUSE xF86XK_AudioPlay
+    #define VK_MEDIA_PLAY_PAUSE XF86XK_AudioPlay
     #define VK_MEDIA_NEXT_TRACK XF86XK_AudioNext
     #define VK_MEDIA_PREV_TRACK XF86XK_AudioPrev
-    #define VK_MEDIA_STOP xF86XK_AudioStop
-    #define VK_VOLUME_UP xF86XK_AudioRaiseVolume
+    #define VK_MEDIA_STOP XF86XK_AudioStop
+    #define VK_VOLUME_UP XF86XK_AudioRaiseVolume
     #define VK_VOLUME_DOWN XF86XK_AudioLowerVolume
     #define VK_VOLUME_MUTE XF86XK_AudioMute
     #define VK_SLEEP 13
 
     int click_key(int key){
     	display = XOpenDisplay(NULL);
-		keycode = XKeysymToKeycode(display, key);
+		int keycode = XKeysymToKeycode(display, key);
 		XTestFakeKeyEvent(display, keycode, True, 0);
 		XTestFakeKeyEvent(display, keycode, False, 0);
 		XFlush(display);
