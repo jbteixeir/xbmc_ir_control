@@ -2,6 +2,22 @@
 Remote control for XBMC
 Maps serial commands to keyboard keystrokes
 Author: José Teixeira - jbteixeir@gmail.com
+
+For linux:
+	compile with -lX11 -lXtst
+	OR
+	gcc my-program.c $(pkg-config --cflags --libs x11) -lXtst -o my-program
+
+	keyboard codes: http://cgit.freedesktop.org/xorg/proto/x11proto/plain/keysymdef.h
+	keyboard audio codes: http://code.haskell.org/X11/Graphics/X11/ExtraTypes/XF86.hsc
+
+For windows:
+	install linux (just kidding, work with both)
+	keyboard codes: http://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
+
+
+For MacOS:
+	comming soon
 */
 
 #include <string.h> 
@@ -14,45 +30,52 @@ Author: José Teixeira - jbteixeir@gmail.com
 
 #ifdef _WIN32
 	#include <windows.h>
+
+	int click_key(int key){
+		keybd_event(key, 0, KEYEVENTF_EXTENDEDKEY | 0, 0);
+		keybd_event(key, 0, KEYEVENTF_KEYUP, 0);
+		return 0;
+	}
 #endif
 
 #ifdef linux
 	#include <X11/Xlib.h>
 	#include <X11/keysym.h>
+	#include <X11/XF86keysym.h>
 	#include <X11/extensions/XTest.h>
 	
 	Display *display;
-	unsigned int keycode;
-	display = XOpenDisplay(NULL);
 	
-	keycode = XKeysymToKeycode(display, XK_Pause);
-	XTestFakeKeyEvent(display, keycode, True, 0);
-	XTestFakeKeyEvent(display, keycode, False, 0);
-	XFlush(display);
-	//compile with -lX11 -lXtst
-	//gcc my-program.c $(pkg-config --cflags --libs x11) -o my-program
-	//codes: http://www.virtualbox.org/svn/vbox/trunk/src/VBox/Frontends/VirtualBox/src/platform/x11/XKeyboard-new.cpp
-#endif
+	#define VK_UP XK_Up
+    #define VK_DOWN XK_Down
+    #define VK_LEFT XK_Left
+    #define VK_RIGHT XK_Right
+    #define VK_RETURN XK_Return
+    #define VK_BACK XK_BackSpace
+    #define VK_MEDIA_PLAY_PAUSE xF86XK_AudioPlay
+    #define VK_MEDIA_NEXT_TRACK XF86XK_AudioNext
+    #define VK_MEDIA_PREV_TRACK XF86XK_AudioPrev
+    #define VK_MEDIA_STOP xF86XK_AudioStop
+    #define VK_VOLUME_UP xF86XK_AudioRaiseVolume
+    #define VK_VOLUME_DOWN XF86XK_AudioLowerVolume
+    #define VK_VOLUME_MUTE XF86XK_AudioMute
+    #define VK_SLEEP 13
 
-//#define VK_UP
-//#define VK_DOWN
-//#define VK_LEFT
-//#define VK_RIGHT
-//#define VK_RETURN
-//#define VK_BACK
-//#define VK_MEDIA_PLAY_PAUSE
-//#define VK_MEDIA_PLAY_PAUSE
-//#define VK_MEDIA_STOP
-//#define VK_VOLUME_UP
-//#define VK_VOLUME_DOWN
-//#define VK_VOLUME_MUTE
-//#define VK_SLEEP
+    int click_key(int key){
+    	display = XOpenDisplay(NULL);
+		keycode = XKeysymToKeycode(display, key);
+		XTestFakeKeyEvent(display, keycode, True, 0);
+		XTestFakeKeyEvent(display, keycode, False, 0);
+		XFlush(display);
+		return 0;
+	}
+
+#endif
 
 FILE *serial_port;
 
 int open_serial(char *serial_port_name);
 int read_serial();
-int click_key(int key);
 int serial_to_key(char *key_string);
 
 int main(int argc, char *argv[]){
@@ -88,12 +111,6 @@ int read_serial(){
 		fflush(stdout);
     }
     return 0;
-}
-
-int click_key(int key){
-	keybd_event(key, 0, KEYEVENTF_EXTENDEDKEY | 0, 0);
-	keybd_event(key, 0, KEYEVENTF_KEYUP, 0);
-	return 0;
 }
 
 int serial_to_key(char *key_string){
