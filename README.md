@@ -1,14 +1,14 @@
-xbmc_ir_control
-===============
+#xbmc_ir_control
+
 
 Control XBMC using a arduino uno, IR sensor and your TV remote.
 
-Why?
-----
+##Why?
+
 Because my computer drivers do not support HDMI CEC (although the TV does), and arduino uno does not support sending keyboard strokes throught USB.
 
-The solution
-------------
+##The solution
+
 Arduino recieves infrared signals form TV remote and sends codes to serial port.
 A 'C' program on the computer reads the serial port codes and emulates the keystrokes.
 Voilá!
