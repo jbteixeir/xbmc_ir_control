@@ -1,14 +1,14 @@
 #XBMC IR Control with TV Remote
 
-Control XBMC using a arduino uno, IR sensor and your TV remote.
+Control XBMC (or any other mediacenter) using a arduino uno, IR sensor and your TV remote.
 
 ###Why?
 
-Because my computer drivers do not support HDMI CEC (although the TV does), and arduino uno does not support sending keyboard strokes throught USB.
+Because my computer graphic card drivers does not support HDMI CEC (although the TV does), and arduino uno does not support sending keyboard strokes directly throught USB.
 
 ###The solution
 
-Arduino recieves infrared signals form TV remote and sends codes to serial port.
+Arduino recieves infrared signals from TV remote and sends codes to serial port.
 A 'C' program on the computer reads the serial port codes and emulates the keystrokes.
 Voilá!
 
