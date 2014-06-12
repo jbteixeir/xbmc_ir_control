@@ -42,6 +42,9 @@ Change the code in the arduino using the flags specified there.
 * Linux: `gcc xbmcIR.c $(pkg-config --cflags --libs x11) -lXtst -o xbmcIR`
 * Windows: `gcc xbmcIR.c`
 
+Compilation requirements: 
+`sudo apt-get install libxtst-dev libx11-dev x11proto-core-dev` (for debian based linux)
+
 ###Addicional Notes
 It's not yet fully tested, but it should work.
 Contact me if you have any doubt.
