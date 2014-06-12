@@ -39,8 +39,8 @@ Change the code in the arduino using the flags specified there.
 * SLEEP
 
 ###Compiling
-Linux: gcc xbmcIR.c $(pkg-config --cflags --libs x11) -lXtst -o xbmcIR
-Windows: gcc xbmcIR.c
+* Linux: gcc xbmcIR.c $(pkg-config --cflags --libs x11) -lXtst -o xbmcIR
+* Windows: gcc xbmcIR.c
 
 ###Addicional Notes
 It's not yet fully tested, but it should work.
