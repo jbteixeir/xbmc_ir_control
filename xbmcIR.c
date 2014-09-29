@@ -78,9 +78,11 @@ int open_serial(char *serial_port_name);
 int read_serial();
 int serial_to_key(char *key_string);
 
+
 int main(int argc, char *argv[]){
 	open_serial(argv[1]);
-	read_serial();
+    while(1)
+	    read_serial();
 	return 0;
 }
 
@@ -103,12 +105,14 @@ int open_serial(char *serial_port_name){
 }
 
 int read_serial(){
-	char buffer[32];
+	char buffer[100];
 
 	while((fgets(buffer, sizeof(buffer), serial_port)) != NULL){
-    	//printf("%s",buffer);
+
+    	printf("%s\n",buffer);
     	serial_to_key(buffer);
-		fflush(stdout);
+    	fflush(stdout);
+    	buffer[0] = '\0';
     }
     return 0;
 }
@@ -170,9 +174,15 @@ int serial_to_key(char *key_string){
 		click_key(VK_SLEEP);
 		printf("Sleep.\n");
 	}
-	else{
-		printf("No matching key.\n");
-		return -1;
+    else if(strcmp(key_string, "LASTKEY\n")==0){
+//		click_key(VK_SLEEP);
+		printf("Last key.\n");
 	}
+	//else{
+		//printf("No matching key.\n");
+		//printf("%s", key_string);
+		//return -1;
+	//}
+	fflush(stdout);
 	return 0;
 }
